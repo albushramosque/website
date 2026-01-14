@@ -49,11 +49,18 @@ try {
   error = e instanceof Error ? e.message : 'Failed to fetch prayer times';
 }
 
-function formatTime12h(time24: string): string {
+function formatTime12h(time24: string): string | null {
+  if (!time24) return null;
   const [hours, minutes] = time24.split(':').map(Number);
+  if (isNaN(hours) || isNaN(minutes)) return null;
   const period = hours >= 12 ? 'PM' : 'AM';
   const hours12 = hours % 12 || 12;
   return `${hours12}:${String(minutes).padStart(2, '0')} ${period}`;
+}
+
+function formatAdhan(time24: string): string {
+  const result = formatTime12h(time24);
+  return result ?? '--:--';
 }
 
 function calculateMaghribIqamah(maghribAdhan: string): string {
@@ -74,37 +81,37 @@ type PrayerRow = {
 const prayers: PrayerRow[] = prayerData ? [
   { 
     name: PRAYER_NAMES.fajr, 
-    adhan: formatTime12h(prayerData.timings.Fajr.split(' ')[0]),
+    adhan: formatAdhan(prayerData.timings.Fajr.split(' ')[0]),
     adhan24: prayerData.timings.Fajr.split(' ')[0],
     iqamah: formatTime12h(IQAMAH_TIMES.fajr)
   },
   { 
     name: PRAYER_NAMES.sunrise, 
-    adhan: formatTime12h(prayerData.timings.Sunrise.split(' ')[0]),
+    adhan: formatAdhan(prayerData.timings.Sunrise.split(' ')[0]),
     adhan24: prayerData.timings.Sunrise.split(' ')[0],
     iqamah: null
   },
   { 
     name: PRAYER_NAMES.dhuhr, 
-    adhan: formatTime12h(prayerData.timings.Dhuhr.split(' ')[0]),
+    adhan: formatAdhan(prayerData.timings.Dhuhr.split(' ')[0]),
     adhan24: prayerData.timings.Dhuhr.split(' ')[0],
     iqamah: formatTime12h(IQAMAH_TIMES.dhuhr)
   },
   { 
     name: PRAYER_NAMES.asr, 
-    adhan: formatTime12h(prayerData.timings.Asr.split(' ')[0]),
+    adhan: formatAdhan(prayerData.timings.Asr.split(' ')[0]),
     adhan24: prayerData.timings.Asr.split(' ')[0],
-    iqamah: formatTime12h(IQAMAH_TIMES.asr)
+    iqamah: null
   },
   { 
     name: PRAYER_NAMES.maghrib, 
-    adhan: formatTime12h(prayerData.timings.Maghrib.split(' ')[0]),
+    adhan: formatAdhan(prayerData.timings.Maghrib.split(' ')[0]),
     adhan24: prayerData.timings.Maghrib.split(' ')[0],
-    iqamah: formatTime12h(calculateMaghribIqamah(prayerData.timings.Maghrib.split(' ')[0]))
+    iqamah: null
   },
   { 
     name: PRAYER_NAMES.isha, 
-    adhan: formatTime12h(prayerData.timings.Isha.split(' ')[0]),
+    adhan: formatAdhan(prayerData.timings.Isha.split(' ')[0]),
     adhan24: prayerData.timings.Isha.split(' ')[0],
     iqamah: formatTime12h(IQAMAH_TIMES.isha)
   },

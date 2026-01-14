@@ -1,0 +1,95 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Donate" description="Support Al-Bushra Mosque with your generous donations">
+  <section class="py-16 sm:py-20 lg:py-24 bg-stone-50">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <h1 class="text-3xl sm:text-4xl font-bold text-stone-900 mb-4">
+          Support Our Mosque
+        </h1>
+        <p class="text-stone-600">
+          Your generous donations help us maintain our space and serve the community.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-xl border border-stone-200 overflow-hidden">
+        <div class="p-6 sm:p-8 space-y-8">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </div>
+            <p class="text-stone-600 text-sm">
+              JazakAllah Khair for your support
+            </p>
+          </div>
+
+          <div class="border-t border-stone-200 pt-8">
+            <h2 class="text-lg font-semibold text-stone-900 mb-6 text-center">Donation Options</h2>
+            
+            <div class="space-y-6">
+              <div class="p-5 bg-stone-50 rounded-lg">
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="w-10 h-10 bg-purple-100 text-purple-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <h3 class="font-semibold text-stone-900">Zelle</h3>
+                </div>
+                <p class="text-stone-600 text-sm mb-2">Send directly from your bank app to:</p>
+                <p class="font-mono text-lg text-stone-900 bg-white px-4 py-2 rounded border border-stone-200">
+                  donation@albushramosque.org
+                </p>
+              </div>
+
+              <div class="p-5 bg-stone-50 rounded-lg">
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="w-10 h-10 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center flex-shrink-0">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944.901C5.026.382 5.474 0 5.998 0h7.46c2.57 0 4.578.543 5.69 1.81 1.01 1.15 1.304 2.42 1.012 4.287-.023.143-.047.288-.077.437-.983 5.05-4.349 6.797-8.647 6.797h-2.19c-.524 0-.968.382-1.05.9l-1.12 7.106zm14.146-14.42a3.35 3.35 0 0 0-.607-.541c-.013.076-.026.175-.041.254-.93 4.778-4.005 7.201-9.138 7.201h-2.19a.563.563 0 0 0-.556.479l-1.187 7.527h-.506l-.24 1.516a.56.56 0 0 0 .554.647h3.882c.46 0 .85-.334.922-.788.06-.26.76-4.852.816-5.09a.932.932 0 0 1 .923-.788h.58c3.76 0 6.705-1.528 7.565-5.946.36-1.847.174-3.388-.777-4.471z"/>
+                    </svg>
+                  </div>
+                  <h3 class="font-semibold text-stone-900">PayPal</h3>
+                </div>
+                <p class="text-stone-600 text-sm mb-3">Quick and secure online payment:</p>
+                <a 
+                  href="https://paypal.me/albushramosque" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center justify-center w-full px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
+                >
+                  Donate via PayPal
+                  <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-stone-200 pt-8">
+            <h2 class="text-lg font-semibold text-stone-900 mb-4 text-center">Tax Receipt</h2>
+            <p class="text-stone-600 text-sm text-center mb-4">
+              Need a tax receipt? Fill out this form after donating and we'll send you one.
+            </p>
+            <a 
+              href="https://docs.google.com/forms/d/e/1FAIpQLSceldLgOZoqeWoBWGAITh74OmPw1_rcNsHBWX6QRWdQhui4oQ/viewform" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center w-full px-6 py-3 bg-stone-800 text-white font-semibold rounded-lg hover:bg-stone-900 transition-colors focus:outline-none focus:ring-2 focus:ring-stone-800 focus:ring-offset-2"
+            >
+              Request Tax Receipt
+              <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -23,10 +23,10 @@ export interface IqamahSchedule {
  * Maghrib Iqamah is typically dynamic (e.g., 5-10 minutes after Adhan).
  */
 export const IQAMAH_TIMES: IqamahSchedule = {
-  fajr: "06:00",
-  dhuhr: "13:30",
-  asr: "16:30",
-  maghrib: "+10", // 10 minutes after Maghrib Adhan
+  fajr: "06:15",
+  dhuhr: "13:15",
+  asr: "",
+  maghrib: "",
   isha: "20:00",
 };
 
