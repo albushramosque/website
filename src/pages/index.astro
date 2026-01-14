@@ -3,6 +3,41 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PrayerTimes from '../components/PrayerTimes.astro';
 import VisitorInfo from '../components/VisitorInfo.astro';
 import PatternOverlay from '../components/PatternOverlay.astro';
+import { getCollection, type CollectionEntry } from 'astro:content';
+
+const allEvents = await getCollection('events');
+const now = new Date();
+now.setHours(0, 0, 0, 0);
+
+const upcomingEvents = allEvents
+  .filter((event: CollectionEntry<'events'>) => new Date(event.data.date) >= now)
+  .sort((a: CollectionEntry<'events'>, b: CollectionEntry<'events'>) => 
+    new Date(a.data.date).getTime() - new Date(b.data.date).getTime()
+  )
+  .slice(0, 3);
+
+function formatDate(date: Date): string {
+  // Parse as local date to avoid timezone shift
+  const dateStr = date.toISOString().split('T')[0];
+  const [year, month, day] = dateStr.split('-').map(Number);
+  const localDate = new Date(year, month - 1, day);
+  return localDate.toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+  });
+}
+
+function getEventTypeStyles(type: string): { bg: string; text: string; accent: string } {
+  const styles: Record<string, { bg: string; text: string; accent: string }> = {
+    jummah: { bg: 'bg-mosque-800/10', text: 'text-mosque-800', accent: 'border-l-mosque-800' },
+    lecture: { bg: 'bg-gold-400/10', text: 'text-gold-600', accent: 'border-l-gold-500' },
+    class: { bg: 'bg-purple-100', text: 'text-purple-800', accent: 'border-l-purple-500' },
+    community: { bg: 'bg-amber-100', text: 'text-amber-800', accent: 'border-l-amber-500' },
+    other: { bg: 'bg-stone-100', text: 'text-stone-800', accent: 'border-l-stone-400' },
+  };
+  return styles[type] || styles.other;
+}
 ---
 
 <BaseLayout title="Welcome">
@@ -54,45 +89,53 @@ import PatternOverlay from '../components/PatternOverlay.astro';
     </div>
   </section>
 
-  <!-- Services Section -->
-  <section class="py-24 bg-white" aria-labelledby="services-heading">
+  <!-- Upcoming Events Section -->
+  <section class="py-24 bg-white" aria-labelledby="events-heading">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-3xl mx-auto mb-16">
-        <h2 id="services-heading" class="text-3xl sm:text-4xl font-bold font-serif text-mosque-800 mb-6 tracking-tight">
-          Serving Our Community
+        <h2 id="events-heading" class="text-3xl sm:text-4xl font-bold font-serif text-mosque-800 mb-6 tracking-tight">
+          Upcoming Events
         </h2>
         <p class="text-lg text-stone-600 leading-relaxed">
-          We strive to provide comprehensive services that cater to the spiritual, educational, and social needs of our diverse congregation.
+          Join us for prayers, gatherings, and community programs.
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
-        <!-- Service 1 -->
-        <article class="group p-8 bg-cream-50 rounded-2xl border border-stone-100 hover:border-gold-500/30 hover:shadow-lg transition-all duration-300">
-          <div class="w-16 h-16 bg-stone-200 rounded-full mb-6 overflow-hidden group-hover:scale-105 transition-transform duration-300"></div>
-          <h3 class="text-xl font-bold font-serif text-mosque-800 mb-3">Daily Prayers</h3>
-          <p class="text-stone-600 leading-relaxed">
-            Join us for the five daily prayers in congregation. Our doors are open to everyone seeking peace and spiritual connection.
-          </p>
-        </article>
+      {upcomingEvents.length === 0 ? (
+        <div class="text-center py-12 bg-cream-50 rounded-2xl border border-cream-200 max-w-2xl mx-auto">
+          <p class="text-stone-600">No upcoming events. Check back soon!</p>
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+          {upcomingEvents.map((event: CollectionEntry<'events'>) => (
+            <article class={`group p-6 bg-cream-50 rounded-2xl border border-stone-100 border-l-4 ${getEventTypeStyles(event.data.type).accent} hover:border-gold-500/30 hover:shadow-lg transition-all duration-300`}>
+              <div class="flex items-center gap-2 text-sm text-stone-500 mb-3">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <time datetime={new Date(event.data.date).toISOString()}>
+                  {formatDate(new Date(event.data.date))}
+                </time>
+                <span class="text-stone-300">•</span>
+                <span>{event.data.time}</span>
+              </div>
+              <h3 class="text-xl font-bold font-serif text-mosque-800 mb-2">{event.data.title}</h3>
+              <p class="text-stone-600 text-sm leading-relaxed line-clamp-2">{event.data.description}</p>
+            </article>
+          ))}
+        </div>
+      )}
 
-        <!-- Service 2 -->
-        <article class="group p-8 bg-cream-50 rounded-2xl border border-stone-100 hover:border-gold-500/30 hover:shadow-lg transition-all duration-300">
-          <div class="w-16 h-16 bg-stone-200 rounded-full mb-6 overflow-hidden group-hover:scale-105 transition-transform duration-300"></div>
-          <h3 class="text-xl font-bold font-serif text-mosque-800 mb-3">Islamic Education</h3>
-          <p class="text-stone-600 leading-relaxed">
-            Comprehensive Quran classes, Islamic studies, and Arabic language programs tailored for children and adults alike.
-          </p>
-        </article>
-
-        <!-- Service 3 -->
-        <article class="group p-8 bg-cream-50 rounded-2xl border border-stone-100 hover:border-gold-500/30 hover:shadow-lg transition-all duration-300">
-          <div class="w-16 h-16 bg-stone-200 rounded-full mb-6 overflow-hidden group-hover:scale-105 transition-transform duration-300"></div>
-          <h3 class="text-xl font-bold font-serif text-mosque-800 mb-3">Community Events</h3>
-          <p class="text-stone-600 leading-relaxed">
-            Foster bonds through regular gatherings, holiday celebrations, and compassionate community outreach programs.
-          </p>
-        </article>
+      <div class="text-center mt-12">
+        <a
+          href="/events"
+          class="inline-flex items-center justify-center px-8 py-3 text-base font-semibold text-mosque-800 border-2 border-mosque-800/20 bg-transparent rounded-xl hover:bg-mosque-800/5 hover:border-mosque-800/40 transition-all duration-200"
+        >
+          View All Events
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
       </div>
     </div>
   </section>
