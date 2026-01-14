@@ -120,14 +120,14 @@ const prayers: PrayerRow[] = prayerData ? [
 const prayerTimesJson = JSON.stringify(prayers.map(p => ({ name: p.name, time: p.adhan24 })));
 ---
 
-<section class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden" aria-labelledby="prayer-times-heading">
-  <div class="bg-gradient-to-r from-sky-800 to-sky-900 px-4 sm:px-6 py-4">
-    <h2 id="prayer-times-heading" class="text-lg sm:text-xl font-semibold text-white">
+<section class="bg-white rounded-xl shadow-lg border-t-4 border-gold-500 overflow-hidden" aria-labelledby="prayer-times-heading">
+  <div class="px-4 sm:px-6 py-6 border-b border-stone-100 bg-cream-50">
+    <h2 id="prayer-times-heading" class="text-2xl font-serif font-bold text-mosque-800 text-center">
       Prayer Times
     </h2>
     {prayerData && (
-      <p class="text-sky-200 text-sm mt-1">
-        {prayerData.date.readable} · {prayerData.date.hijri.day} {prayerData.date.hijri.month.en} {prayerData.date.hijri.year} AH
+      <p class="text-stone-600 text-sm mt-2 text-center font-medium">
+        {prayerData.date.readable} <span class="mx-2 text-gold-500">•</span> {prayerData.date.hijri.day} {prayerData.date.hijri.month.en} {prayerData.date.hijri.year} AH
       </p>
     )}
   </div>
@@ -140,27 +140,27 @@ const prayerTimesJson = JSON.stringify(prayers.map(p => ({ name: p.name, time: p
     <div class="p-4 sm:p-6">
       <PrayerCountdown prayerTimesJson={prayerTimesJson} />
       
-      <div class="overflow-x-auto -mx-4 sm:mx-0">
+      <div class="overflow-x-auto -mx-4 sm:mx-0 mt-6">
         <table class="w-full min-w-[300px]" role="table">
           <thead>
             <tr class="border-b border-stone-200">
-              <th scope="col" class="text-left py-3 px-4 text-sm font-semibold text-stone-900">Prayer</th>
-              <th scope="col" class="text-center py-3 px-4 text-sm font-semibold text-stone-900">Adhan</th>
-              <th scope="col" class="text-center py-3 px-4 text-sm font-semibold text-stone-900">Iqamah</th>
+              <th scope="col" class="text-left py-3 px-4 text-sm font-semibold text-mosque-800 uppercase tracking-wider">Prayer</th>
+              <th scope="col" class="text-center py-3 px-4 text-sm font-semibold text-mosque-800 uppercase tracking-wider">Adhan</th>
+              <th scope="col" class="text-center py-3 px-4 text-sm font-semibold text-mosque-800 uppercase tracking-wider">Iqamah</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-stone-100">
             {prayers.map((prayer) => (
-              <tr class="hover:bg-stone-50 transition-colors">
-                <td class="py-3 px-4">
-                  <span class="font-medium text-stone-900">{prayer.name}</span>
+              <tr class="hover:bg-cream-50 transition-colors">
+                <td class="py-4 px-4">
+                  <span class="font-serif font-semibold text-lg text-mosque-800">{prayer.name}</span>
                 </td>
-                <td class="py-3 px-4 text-center">
-                  <time class="text-stone-600 tabular-nums">{prayer.adhan}</time>
+                <td class="py-4 px-4 text-center">
+                  <time class="text-stone-600 font-medium tabular-nums text-lg">{prayer.adhan}</time>
                 </td>
-                <td class="py-3 px-4 text-center">
+                <td class="py-4 px-4 text-center">
                   {prayer.iqamah ? (
-                    <time class="text-sky-800 font-medium tabular-nums">{prayer.iqamah}</time>
+                    <time class="text-mosque-800 font-bold tabular-nums text-lg">{prayer.iqamah}</time>
                   ) : (
                     <span class="text-stone-400">—</span>
                   )}
@@ -171,7 +171,7 @@ const prayerTimesJson = JSON.stringify(prayers.map(p => ({ name: p.name, time: p
         </table>
       </div>
 
-      <p class="mt-4 text-xs text-stone-500 text-center">
+      <p class="mt-6 text-xs text-stone-400 text-center italic">
         Times for Dedham, MA · ISNA calculation method
       </p>
     </div>

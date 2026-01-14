@@ -2,4 +2,26 @@
 
 @theme {
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+
+  --color-cream-50: #FDFCF0;
+  --color-cream-100: #F7F5E6;
+  --color-cream-200: #EBE8D0;
+  
+  --color-mosque-800: #1B4332;
+  --color-mosque-900: #0D2B1D;
+  
+  --color-gold-400: #D4AF37;
+  --color-gold-500: #C5A028;
+  --color-gold-600: #B08D1E;
+}
+
+@layer base {
+  body {
+    @apply bg-cream-50 text-stone-800;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
 }

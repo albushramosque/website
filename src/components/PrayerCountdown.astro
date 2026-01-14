@@ -6,15 +6,15 @@ interface Props {
 const { prayerTimesJson } = Astro.props;
 ---
 
-<div class="mb-6 p-4 bg-sky-50 rounded-lg border border-sky-100">
+<div class="mb-6 p-6 bg-cream-50 rounded-lg border border-gold-500/20">
   <div class="flex items-center justify-between gap-4">
     <div>
-      <p class="text-sm text-stone-600">Next Prayer</p>
-      <p class="text-lg font-semibold text-sky-900" id="next-prayer-name">Loading...</p>
+      <p class="text-sm font-medium text-stone-500 uppercase tracking-wide">Next Prayer</p>
+      <p class="text-2xl font-serif font-bold text-mosque-800 mt-1" id="next-prayer-name">Loading...</p>
     </div>
     <div class="text-right">
-      <p class="text-sm text-stone-600">Time Remaining</p>
-      <p class="text-2xl font-bold text-sky-800 tabular-nums" id="countdown-timer">--:--:--</p>
+      <p class="text-sm font-medium text-stone-500 uppercase tracking-wide">Starts In</p>
+      <p class="text-2xl font-variant-numeric font-medium text-gold-600 tabular-nums mt-1" id="countdown-timer">--:--:--</p>
     </div>
   </div>
 </div>
