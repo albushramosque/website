@@ -1,0 +1,172 @@
+---
+import { IQAMAH_TIMES, MAGHRIB_IQAMAH_DELAY_MINUTES, PRAYER_NAMES } from '../lib/iqamah';
+import PrayerCountdown from './PrayerCountdown.astro';
+
+interface AladhanTimings {
+  Fajr: string;
+  Sunrise: string;
+  Dhuhr: string;
+  Asr: string;
+  Maghrib: string;
+  Isha: string;
+}
+
+interface AladhanResponse {
+  code: number;
+  data: {
+    timings: AladhanTimings;
+    date: {
+      readable: string;
+      hijri: {
+        day: string;
+        month: { en: string };
+        year: string;
+      };
+    };
+  };
+}
+
+const DEDHAM_COORDS = { latitude: 42.2418, longitude: -71.1662 };
+const CALCULATION_METHOD = 2; // ISNA
+
+let prayerData: AladhanResponse['data'] | null = null;
+let error: string | null = null;
+
+try {
+  const today = new Date();
+  const dateStr = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
+  
+  const url = `https://api.aladhan.com/v1/timings/${dateStr}?latitude=${DEDHAM_COORDS.latitude}&longitude=${DEDHAM_COORDS.longitude}&method=${CALCULATION_METHOD}`;
+  
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`API returned ${response.status}`);
+  
+  const json: AladhanResponse = await response.json();
+  if (json.code !== 200) throw new Error('Invalid API response');
+  
+  prayerData = json.data;
+} catch (e) {
+  error = e instanceof Error ? e.message : 'Failed to fetch prayer times';
+}
+
+function formatTime12h(time24: string): string {
+  const [hours, minutes] = time24.split(':').map(Number);
+  const period = hours >= 12 ? 'PM' : 'AM';
+  const hours12 = hours % 12 || 12;
+  return `${hours12}:${String(minutes).padStart(2, '0')} ${period}`;
+}
+
+function calculateMaghribIqamah(maghribAdhan: string): string {
+  const [hours, minutes] = maghribAdhan.split(':').map(Number);
+  const totalMinutes = hours * 60 + minutes + MAGHRIB_IQAMAH_DELAY_MINUTES;
+  const newHours = Math.floor(totalMinutes / 60) % 24;
+  const newMinutes = totalMinutes % 60;
+  return `${String(newHours).padStart(2, '0')}:${String(newMinutes).padStart(2, '0')}`;
+}
+
+type PrayerRow = {
+  name: string;
+  adhan: string;
+  iqamah: string | null;
+  adhan24: string;
+};
+
+const prayers: PrayerRow[] = prayerData ? [
+  { 
+    name: PRAYER_NAMES.fajr, 
+    adhan: formatTime12h(prayerData.timings.Fajr.split(' ')[0]),
+    adhan24: prayerData.timings.Fajr.split(' ')[0],
+    iqamah: formatTime12h(IQAMAH_TIMES.fajr)
+  },
+  { 
+    name: PRAYER_NAMES.sunrise, 
+    adhan: formatTime12h(prayerData.timings.Sunrise.split(' ')[0]),
+    adhan24: prayerData.timings.Sunrise.split(' ')[0],
+    iqamah: null
+  },
+  { 
+    name: PRAYER_NAMES.dhuhr, 
+    adhan: formatTime12h(prayerData.timings.Dhuhr.split(' ')[0]),
+    adhan24: prayerData.timings.Dhuhr.split(' ')[0],
+    iqamah: formatTime12h(IQAMAH_TIMES.dhuhr)
+  },
+  { 
+    name: PRAYER_NAMES.asr, 
+    adhan: formatTime12h(prayerData.timings.Asr.split(' ')[0]),
+    adhan24: prayerData.timings.Asr.split(' ')[0],
+    iqamah: formatTime12h(IQAMAH_TIMES.asr)
+  },
+  { 
+    name: PRAYER_NAMES.maghrib, 
+    adhan: formatTime12h(prayerData.timings.Maghrib.split(' ')[0]),
+    adhan24: prayerData.timings.Maghrib.split(' ')[0],
+    iqamah: formatTime12h(calculateMaghribIqamah(prayerData.timings.Maghrib.split(' ')[0]))
+  },
+  { 
+    name: PRAYER_NAMES.isha, 
+    adhan: formatTime12h(prayerData.timings.Isha.split(' ')[0]),
+    adhan24: prayerData.timings.Isha.split(' ')[0],
+    iqamah: formatTime12h(IQAMAH_TIMES.isha)
+  },
+] : [];
+
+const prayerTimesJson = JSON.stringify(prayers.map(p => ({ name: p.name, time: p.adhan24 })));
+---
+
+<section class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden" aria-labelledby="prayer-times-heading">
+  <div class="bg-gradient-to-r from-sky-800 to-sky-900 px-4 sm:px-6 py-4">
+    <h2 id="prayer-times-heading" class="text-lg sm:text-xl font-semibold text-white">
+      Prayer Times
+    </h2>
+    {prayerData && (
+      <p class="text-sky-200 text-sm mt-1">
+        {prayerData.date.readable} · {prayerData.date.hijri.day} {prayerData.date.hijri.month.en} {prayerData.date.hijri.year} AH
+      </p>
+    )}
+  </div>
+
+  {error ? (
+    <div class="p-4 sm:p-6 text-center">
+      <p class="text-red-600" role="alert">Unable to load prayer times. Please try again later.</p>
+    </div>
+  ) : (
+    <div class="p-4 sm:p-6">
+      <PrayerCountdown prayerTimesJson={prayerTimesJson} />
+      
+      <div class="overflow-x-auto -mx-4 sm:mx-0">
+        <table class="w-full min-w-[300px]" role="table">
+          <thead>
+            <tr class="border-b border-stone-200">
+              <th scope="col" class="text-left py-3 px-4 text-sm font-semibold text-stone-900">Prayer</th>
+              <th scope="col" class="text-center py-3 px-4 text-sm font-semibold text-stone-900">Adhan</th>
+              <th scope="col" class="text-center py-3 px-4 text-sm font-semibold text-stone-900">Iqamah</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-stone-100">
+            {prayers.map((prayer) => (
+              <tr class="hover:bg-stone-50 transition-colors">
+                <td class="py-3 px-4">
+                  <span class="font-medium text-stone-900">{prayer.name}</span>
+                </td>
+                <td class="py-3 px-4 text-center">
+                  <time class="text-stone-600 tabular-nums">{prayer.adhan}</time>
+                </td>
+                <td class="py-3 px-4 text-center">
+                  {prayer.iqamah ? (
+                    <time class="text-sky-800 font-medium tabular-nums">{prayer.iqamah}</time>
+                  ) : (
+                    <span class="text-stone-400">—</span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="mt-4 text-xs text-stone-500 text-center">
+        Times for Dedham, MA · ISNA calculation method
+      </p>
+    </div>
+  )}
+</section>
