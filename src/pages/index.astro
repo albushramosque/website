@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Welcome">
+  <!-- Hero Section -->
+  <section class="relative bg-gradient-to-br from-sky-800 to-sky-900 text-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32">
+      <div class="max-w-3xl">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-6">
+          Welcome to Al-Bushra Mosque
+        </h1>
+        <p class="text-lg sm:text-xl text-sky-100 leading-relaxed mb-8">
+          A place of worship, learning, and community. Join us in building a stronger, 
+          more connected community through faith and service.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a
+            href="/prayer-times"
+            class="inline-flex items-center justify-center px-6 py-3 bg-white text-sky-800 font-semibold rounded-lg hover:bg-sky-50 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-sky-800"
+          >
+            Prayer Times
+          </a>
+          <a
+            href="/about"
+            class="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-sky-800"
+          >
+            Learn More
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="py-16 sm:py-20 lg:py-24 bg-white" aria-labelledby="services-heading">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 id="services-heading" class="text-2xl sm:text-3xl font-bold text-stone-900 mb-4">
+          Our Services
+        </h2>
+        <p class="text-stone-600 max-w-2xl mx-auto">
+          We offer a variety of programs and services to support our community's spiritual and educational needs.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <article class="p-6 bg-stone-50 rounded-xl">
+          <div class="w-12 h-12 bg-sky-100 text-sky-800 rounded-lg flex items-center justify-center mb-4" aria-hidden="true">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-stone-900 mb-2">Daily Prayers</h3>
+          <p class="text-stone-600 text-sm leading-relaxed">
+            Join us for the five daily prayers in congregation. All are welcome.
+          </p>
+        </article>
+
+        <article class="p-6 bg-stone-50 rounded-xl">
+          <div class="w-12 h-12 bg-sky-100 text-sky-800 rounded-lg flex items-center justify-center mb-4" aria-hidden="true">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-stone-900 mb-2">Islamic Education</h3>
+          <p class="text-stone-600 text-sm leading-relaxed">
+            Quran classes, Islamic studies, and Arabic language programs for all ages.
+          </p>
+        </article>
+
+        <article class="p-6 bg-stone-50 rounded-xl">
+          <div class="w-12 h-12 bg-sky-100 text-sky-800 rounded-lg flex items-center justify-center mb-4" aria-hidden="true">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-stone-900 mb-2">Community Events</h3>
+          <p class="text-stone-600 text-sm leading-relaxed">
+            Regular gatherings, celebrations, and community outreach programs.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 sm:py-20 bg-stone-100" aria-labelledby="cta-heading">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 id="cta-heading" class="text-2xl sm:text-3xl font-bold text-stone-900 mb-4">
+        Join Our Community
+      </h2>
+      <p class="text-stone-600 max-w-2xl mx-auto mb-8">
+        Stay connected with mosque updates, prayer times, and upcoming events.
+      </p>
+      <a
+        href="/contact"
+        class="inline-flex items-center justify-center px-8 py-3 bg-sky-800 text-white font-semibold rounded-lg hover:bg-sky-900 transition-colors focus:outline-none focus:ring-2 focus:ring-sky-800 focus:ring-offset-2"
+      >
+        Get In Touch
+      </a>
+    </div>
+  </section>
+</BaseLayout>

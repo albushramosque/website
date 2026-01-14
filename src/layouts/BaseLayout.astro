@@ -1,0 +1,106 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Al-Bushra Mosque - A place of worship, learning, and community' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0c4a6e" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title} | Al-Bushra Mosque</title>
+  </head>
+  <body class="min-h-screen bg-stone-50 text-stone-900 font-sans antialiased">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-sky-800 focus:text-white focus:rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500"
+    >
+      Skip to main content
+    </a>
+
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-stone-200">
+      <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
+        <div class="flex items-center justify-between h-16">
+          <a href="/" class="flex items-center gap-2 text-sky-800 hover:text-sky-900 transition-colors">
+            <span class="text-xl font-semibold tracking-tight">Al-Bushra Mosque</span>
+          </a>
+
+          <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
+            <li><a href="/" class="text-stone-600 hover:text-sky-800 transition-colors">Home</a></li>
+            <li><a href="/about" class="text-stone-600 hover:text-sky-800 transition-colors">About</a></li>
+            <li><a href="/events" class="text-stone-600 hover:text-sky-800 transition-colors">Events</a></li>
+            <li><a href="/contact" class="text-stone-600 hover:text-sky-800 transition-colors">Contact</a></li>
+          </ul>
+
+          <button
+            type="button"
+            class="md:hidden p-2 text-stone-600 hover:text-sky-800 transition-colors"
+            aria-label="Open menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+
+    <footer class="bg-stone-900 text-stone-300 mt-auto">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h2 class="text-white font-semibold mb-4">Al-Bushra Mosque</h2>
+            <p class="text-sm leading-relaxed">
+              A welcoming place for worship, learning, and community gathering.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="text-white font-semibold mb-4">Quick Links</h2>
+            <ul class="space-y-2 text-sm">
+              <li><a href="/prayer-times" class="hover:text-white transition-colors">Prayer Times</a></li>
+              <li><a href="/events" class="hover:text-white transition-colors">Events</a></li>
+              <li><a href="/donate" class="hover:text-white transition-colors">Donate</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h2 class="text-white font-semibold mb-4">Contact</h2>
+            <address class="not-italic text-sm space-y-2">
+              <p>123 Main Street</p>
+              <p>City, State 12345</p>
+              <p>
+                <a href="tel:+11234567890" class="hover:text-white transition-colors">(123) 456-7890</a>
+              </p>
+            </address>
+          </div>
+        </div>
+
+        <div class="border-t border-stone-800 mt-8 pt-8 text-center text-sm">
+          <p>&copy; {new Date().getFullYear()} Al-Bushra Mosque. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
