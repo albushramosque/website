@@ -1,0 +1,158 @@
+---
+const slides = [
+  {
+    title: 'A Place for Prayer',
+    description: 'Warm, welcoming spaces for reflection and community.',
+    image: '/images/IMG_4353.jpeg',
+  },
+  {
+    title: 'Community Gatherings',
+    description: 'Events, classes, and programs for all ages.',
+    image: '/images/IMG_4356.jpeg',
+  },
+  {
+    title: 'Rooted in Dedham',
+    description: 'Serving neighbors with faith, service, and care.',
+  },
+];
+---
+
+<section
+  class="relative rounded-3xl overflow-hidden border border-cream-200 bg-cream-50 shadow-lg"
+  data-carousel="hero"
+>
+  <div class="relative min-h-[280px] sm:min-h-[320px] lg:min-h-[360px] xl:min-h-[380px]">
+    <div class="absolute inset-0">
+      {slides.map((slide, index) => (
+        <article
+          class={`carousel-slide absolute inset-0 p-6 sm:p-8 lg:p-10 transition-opacity duration-500 ${
+            index === 0 ? 'is-active' : ''
+          }`}
+          data-index={index}
+          aria-hidden={index === 0 ? 'false' : 'true'}
+        >
+          <div class="absolute inset-0 pointer-events-none">
+            {slide.image ? (
+              <img
+                src={slide.image}
+                alt={slide.title}
+                class="h-full w-full object-cover"
+                loading="lazy"
+              />
+            ) : (
+              <div class="h-full w-full bg-gradient-to-br from-mosque-800/5 via-cream-100 to-gold-200/40"></div>
+            )}
+            <div class="absolute inset-0 bg-gradient-to-t from-cream-100/95 via-cream-100/60 to-transparent"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(121,90,48,0.25),_transparent_60%)]"></div>
+            <div class="absolute -top-20 -right-20 h-56 w-56 rounded-full bg-gold-300/30 blur-2xl"></div>
+            <div class="absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-mosque-800/10 blur-2xl"></div>
+          </div>
+
+          <div class="relative z-10 flex h-full flex-col justify-end gap-3">
+            <p class="text-xs uppercase tracking-[0.28em] text-mosque-800/70 font-semibold">
+              Featured Moments
+            </p>
+            <h3 class="text-2xl sm:text-3xl font-serif font-bold text-mosque-900">
+              {slide.title}
+            </h3>
+            <p class="text-sm sm:text-base text-stone-600 leading-relaxed max-w-sm">
+              {slide.description}
+            </p>
+            {!slide.image && (
+              <p class="text-xs text-stone-400 italic">
+                Placeholder slide — swap with real photos soon.
+              </p>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="absolute bottom-6 left-6 sm:left-8 lg:left-10 z-20 flex gap-2">
+      {slides.map((_, index) => (
+        <button
+          type="button"
+          class={`carousel-dot h-2.5 w-2.5 rounded-full border border-mosque-800/40 transition ${
+            index === 0 ? 'is-active' : ''
+          }`}
+          data-index={index}
+          aria-label={`Go to slide ${index + 1}`}
+        ></button>
+      ))}
+    </div>
+
+    <div class="absolute bottom-6 right-6 sm:right-8 lg:right-10 z-20 flex items-center gap-2">
+      <button
+        type="button"
+        class="carousel-prev inline-flex h-10 w-10 items-center justify-center rounded-full border border-mosque-800/20 bg-white/70 text-mosque-800 shadow-sm backdrop-blur transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-mosque-800/60"
+        aria-label="Previous slide"
+      >
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="carousel-next inline-flex h-10 w-10 items-center justify-center rounded-full border border-mosque-800/20 bg-white/70 text-mosque-800 shadow-sm backdrop-blur transition hover:bg-white focus:outline-none focus:ring-2 focus:ring-mosque-800/60"
+        aria-label="Next slide"
+      >
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  const carousel = document.querySelector('[data-carousel="hero"]');
+  if (carousel) {
+    const slides = carousel.querySelectorAll('.carousel-slide');
+    const dots = carousel.querySelectorAll('.carousel-dot');
+    const prev = carousel.querySelector('.carousel-prev');
+    const next = carousel.querySelector('.carousel-next');
+    let activeIndex = 0;
+
+    const setActive = (index) => {
+      activeIndex = (index + slides.length) % slides.length;
+      slides.forEach((slide, slideIndex) => {
+        const isActive = slideIndex === activeIndex;
+        slide.classList.toggle('is-active', isActive);
+        slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+      });
+      dots.forEach((dot, dotIndex) => {
+        dot.classList.toggle('is-active', dotIndex === activeIndex);
+      });
+    };
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const index = Number(dot.dataset.index);
+        setActive(index);
+      });
+    });
+
+    prev?.addEventListener('click', () => setActive(activeIndex - 1));
+    next?.addEventListener('click', () => setActive(activeIndex + 1));
+  }
+</script>
+
+<style>
+  .carousel-slide {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .carousel-slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .carousel-dot {
+    background-color: rgba(121, 90, 48, 0.15);
+  }
+
+  .carousel-dot.is-active {
+    background-color: rgba(121, 90, 48, 0.6);
+  }
+</style>

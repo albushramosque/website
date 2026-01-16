@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PrayerTimes from '../components/PrayerTimes.astro';
+import ImageCarousel from '../components/ImageCarousel.astro';
 import VisitorInfo from '../components/VisitorInfo.astro';
 import PatternOverlay from '../components/PatternOverlay.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
@@ -47,9 +48,9 @@ function getEventTypeStyles(type: string): { bg: string; text: string; accent: s
     <PatternOverlay />
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-32">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-10 items-start">
         <!-- Hero Content -->
-        <div class="max-w-2xl">
+        <div class="max-w-2xl lg:max-w-xl">
           <div class="inline-flex items-center px-3 py-1 rounded-full border border-gold-500/30 bg-gold-500/10 text-gold-600 text-sm font-medium mb-6">
             <span class="flex h-2 w-2 rounded-full bg-gold-500 mr-2 animate-pulse"></span>
             Welcome to Your Community
@@ -80,8 +81,9 @@ function getEventTypeStyles(type: string): { bg: string; text: string; accent: s
         </div>
 
         <!-- Prayer Times Card -->
-        <div class="w-full max-w-md mx-auto lg:max-w-none lg:mx-0 relative">
-          <div class="relative">
+        <div class="w-full mx-auto lg:mx-0 lg:justify-self-center relative space-y-6 sm:space-y-8">
+          <ImageCarousel />
+          <div class="relative w-full">
             <PrayerTimes />
           </div>
         </div>
@@ -103,7 +105,8 @@ function getEventTypeStyles(type: string): { bg: string; text: string; accent: s
 
       {upcomingEvents.length === 0 ? (
         <div class="text-center py-12 bg-cream-50 rounded-2xl border border-cream-200 max-w-2xl mx-auto">
-          <p class="text-stone-600">No upcoming events. Check back soon!</p>
+          <h3 class="text-lg font-semibold text-mosque-800 mb-2">No upcoming events</h3>
+          <p class="text-stone-600">Check back soon!</p>
         </div>
       ) : (
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
@@ -120,7 +123,13 @@ function getEventTypeStyles(type: string): { bg: string; text: string; accent: s
                 <span>{event.data.time}</span>
               </div>
               <h3 class="text-xl font-bold font-serif text-mosque-800 mb-2">{event.data.title}</h3>
-              <p class="text-stone-600 text-sm leading-relaxed line-clamp-2">{event.data.description}</p>
+              <p
+                class="text-stone-600 text-sm leading-relaxed line-clamp-2"
+                title={event.data.description}
+                aria-label={event.data.description}
+              >
+                {event.data.description}
+              </p>
             </article>
           ))}
         </div>
